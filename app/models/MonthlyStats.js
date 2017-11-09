@@ -9,15 +9,6 @@ const sequelize = new Sequelize('node_app', 'root', 'root', {
   }
 });
 
-sequelize
-  .authenticate()
-  .then(() => {
-    console.log('Соединение установлено.');
-  })
-  .catch(err => {
-    console.error('Ошибка соединения:', err);
-  });
-
 const MonthlyStats = sequelize.define('monthly_stats', {
   user_id: {
     type: Sequelize.BIGINT
@@ -39,9 +30,5 @@ const MonthlyStats = sequelize.define('monthly_stats', {
     type: Sequelize.INTEGER
   },
 });
-
-// MonthlyStats.sync({force: true}).then(() => {
-//   return MonthlyStats.create({});
-// });
 
 module.exports = MonthlyStats;

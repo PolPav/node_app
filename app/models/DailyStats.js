@@ -9,15 +9,6 @@ const sequelize = new Sequelize('node_app', 'root', 'root', {
   }
 });
 
-sequelize
-  .authenticate()
-  .then(() => {
-    console.log('Соединение установлено.');
-  })
-  .catch(err => {
-    console.error('Ошибка соединения:', err);
-  });
-
 const DailyStats = sequelize.define('daily_stats', {
   user_id: {
     type: Sequelize.BIGINT
@@ -39,9 +30,5 @@ const DailyStats = sequelize.define('daily_stats', {
     type: Sequelize.INTEGER
   },
 });
-
-// DailyStats.sync({force: true}).then(() => {
-//   return DailyStats.create({});
-// });
 
 module.exports = DailyStats;

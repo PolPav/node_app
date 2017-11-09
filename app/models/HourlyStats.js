@@ -9,16 +9,8 @@ const sequelize = new Sequelize('node_app', 'root', 'root', {
   }
 });
 
-sequelize
-  .authenticate()
-  .then(() => {
-    console.log('Соединение установлено.');
-  })
-  .catch(err => {
-    console.error('Ошибка соединения:', err);
-  });
-
 const HourlyStats = sequelize.define('hourly_stats', {
+
   user_id: {
     type: Sequelize.BIGINT
   },
@@ -38,10 +30,7 @@ const HourlyStats = sequelize.define('hourly_stats', {
   last_likes: {
     type: Sequelize.INTEGER
   },
-});
 
-// HourlyStats.sync({force: true}).then(() => {
-//   return HourlyStats.create({});
-// });
+});
 
 module.exports = HourlyStats;

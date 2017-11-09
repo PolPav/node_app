@@ -9,15 +9,6 @@ const sequelize = new Sequelize('node_app', 'root', 'root', {
   }
 });
 
-sequelize
-  .authenticate()
-  .then(() => {
-    console.log('Соединение установлено.');
-  })
-  .catch(err => {
-    console.error('Ошибка соединения:', err);
-  });
-
 const RatingSettings = sequelize.define('rating_settings', {
 
   total_likes: {
@@ -36,9 +27,5 @@ const RatingSettings = sequelize.define('rating_settings', {
     type: Sequelize.INTEGER
   },
 });
-
-// RatingSettings.sync({force: true}).then(() => {
-//   return RatingSettings.create({});
-// });
 
 module.exports = RatingSettings;

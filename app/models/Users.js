@@ -9,15 +9,6 @@ const sequelize = new Sequelize('node_app', 'root', 'root', {
   }
 });
 
-sequelize
-  .authenticate()
-  .then(() => {
-    console.log('Соединение установлено.');
-  })
-  .catch(err => {
-    console.error('Ошибка соединения:', err);
-  });
-
 const User = sequelize.define('user', {
   name: {
     type: Sequelize.STRING
@@ -38,6 +29,12 @@ const User = sequelize.define('user', {
   calculate_rating: {
     type: Sequelize.INTEGER
   },
+
+  trash: {
+    type: Sequelize.INTEGER,
+    defaultValue: 0
+  },
+
 });
 
 module.exports = User;

@@ -1,39 +1,36 @@
-const appDb = require(`../models/AppDB`);
 const User = require(`../models/Users`);
 
 class UserController{
 
-  constructor(){
+  getUsers(callback) {
 
-    this.db = new appDb();
-    this.user = {};
+      User.findAll({ where: { trash: 0 } }).then(records => {
+        return callback(records);
+      });
   }
 
-  getUser(fn){
+  getUserById(id, callback){
 
-    User.findAll().then(users => {
-      return fn(users)});
-
+    User.findById(id).then(records => {
+      return callback(records);
+    });
   }
 
-  createUser(user, fn){
+  addUser(user, callback){
 
-    this.db.create(user, (result) => { return fn(result) });
-
-    return fn(this.user);
+    return callback(User.create(user));
   }
 
-  updateUser(user, id, fn){
+  updateUser(user, id, callback){
 
-    this.db.update(user, id, (result) => { return fn(result) });
-
-    return fn(this.user);
+    return callback(User.update(user, { where: { id: id } }));
   }
 
-  deleteUser(id, fn){
+  deleteUser(id, callback){
 
-    this.db.remove(id, (result) => { return fn(result) });
+    return callback(User.update({trash: 1}, { where: { id: id } }));
   }
+
 }
 
 module.exports = UserController;

@@ -9,15 +9,6 @@ const sequelize = new Sequelize('node_app', 'root', 'root', {
   }
 });
 
-sequelize
-  .authenticate()
-  .then(() => {
-    console.log('Соединение установлено.');
-  })
-  .catch(err => {
-    console.error('Ошибка соединения:', err);
-  });
-
 const Categories = sequelize.define('categories', {
   name: {
     type: Sequelize.STRING
@@ -28,9 +19,5 @@ const Categories = sequelize.define('categories', {
   }
 
 });
-
-// Categories.sync({force: true}).then(() => {
-//   return Categories.create({});
-// });
 
 module.exports = Categories;
