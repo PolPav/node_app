@@ -2,6 +2,7 @@ const Sequelize = require("sequelize");
 const db = require("../config/db.js");
 
 const Categories = db.module.define('categories', {
+
   name: {
     type: Sequelize.STRING
   },

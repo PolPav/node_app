@@ -2,7 +2,8 @@ const Sequelize = require("sequelize");
 const db = require("../config/db.js");
 
 const MonthlyStats = db.module.define('monthly_stats', {
-  user_id: {
+
+  userId: {
     type: Sequelize.BIGINT
   },
 

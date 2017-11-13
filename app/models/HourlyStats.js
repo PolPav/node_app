@@ -3,7 +3,7 @@ const db = require("../config/db.js");
 
 const HourlyStats = db.module.define('hourly_stats', {
 
-  user_id: {
+  userId: {
     type: Sequelize.BIGINT
   },
 

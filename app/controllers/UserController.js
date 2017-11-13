@@ -1,11 +1,17 @@
 const User = require(`../models/Users`);
+const DailyStats = require(`../models/DailyStats`);
+const HourlyStats = require(`../models/HourlyStats`);
+const MonthlyStats = require(`../models/MonthlyStats`);
 
 class UserController{
 
   getUsers() {
 
     const promise = new Promise((resolve, reject) => {
-      resolve(User.findAll({ where: { trash: 0 } }));
+      resolve(User.findAll({
+        where: { trash: 0 },
+        include:[{model: DailyStats}, {model: HourlyStats}, {model: MonthlyStats}],}));
+
       reject(new Error("Not Found"));
 
     });

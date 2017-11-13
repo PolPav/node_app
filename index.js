@@ -15,7 +15,8 @@ app.get('/', function(req, res) {
 app.get('/users', function(req, res) {
 
   user.getUsers().then(users => {
-  res.send(JSON.stringify(users))});
+  res.send({ok: true, data: users})})
+     .catch(err => console.log(err));
 
 });
 
@@ -26,7 +27,8 @@ app.get('/users/:id', function(req, res) {
   if(id){
 
     user.getUserById(id).then(result => {
-    res.send(JSON.stringify(result))});
+    res.send({ok: true, data: result})})
+      .catch(err => res.send(({error: err})));
   }
 });
 
@@ -47,7 +49,8 @@ app.post('/users', function(req, res) {
     };
 
   user.addUser(data).then(result => {
-  res.send(JSON.stringify(result))});
+  res.send(({ok: true, data: result}))})
+    .catch(err => res.send(({error: err})));
 
 });
 
@@ -57,7 +60,7 @@ app.put('/users/:id', function(req, res) {
   const surname = req.body.surname;
   const pending = req.body.pending;
   const category = req.body.category_id;
-  const id = req.params.id;
+  const id = req.body.id;
 
   const data =
     {
@@ -68,7 +71,8 @@ app.put('/users/:id', function(req, res) {
     };
 
   user.updateUser(data, id).then(result => {
-  res.send(JSON.stringify(result))});
+  res.send({ok: true, data: result})})
+    .catch(err => res.send(({error: err})));
 
 });
 
@@ -77,7 +81,8 @@ app.delete('/users/:id', function(req, res) {
   const id = req.params.id;
 
   user.deleteUser(id).then(result => {
-  res.send(JSON.stringify(result))});
+  res.send(({ok: true, data: result}))})
+    .catch(err => res.send(({error: err})));
 
 });
 
