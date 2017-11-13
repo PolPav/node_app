@@ -1,15 +1,8 @@
 const Sequelize = require("sequelize");
-const sequelize = new Sequelize('node_app', 'root', 'root', {
-  host: 'localhost',
-  dialect: 'mysql',
-  pool: {
-    max: 5,
-    min: 0,
-    idle: 10000
-  }
-});
+const db = require("../config/db.js");
 
-const RatingSettings = sequelize.define('rating_settings', {
+
+const RatingSettings = db.module.define('rating_settings', {
 
   total_likes: {
     type: Sequelize.INTEGER
@@ -25,6 +18,11 @@ const RatingSettings = sequelize.define('rating_settings', {
 
   last_likes: {
     type: Sequelize.INTEGER
+  },
+
+  trash: {
+    type: Sequelize.INTEGER,
+    defaultValue: 0
   },
 });
 

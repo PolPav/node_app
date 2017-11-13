@@ -1,15 +1,7 @@
 const Sequelize = require("sequelize");
-const sequelize = new Sequelize('node_app', 'root', 'root', {
-  host: 'localhost',
-  dialect: 'mysql',
-  pool: {
-    max: 5,
-    min: 0,
-    idle: 10000
-  }
-});
+const db = require("../config/db.js");
 
-const User = sequelize.define('user', {
+const User = db.module.define('user', {
   name: {
     type: Sequelize.STRING
   },

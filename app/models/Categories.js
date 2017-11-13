@@ -1,22 +1,19 @@
 const Sequelize = require("sequelize");
-const sequelize = new Sequelize('node_app', 'root', 'root', {
-  host: 'localhost',
-  dialect: 'mysql',
-  pool: {
-    max: 5,
-    min: 0,
-    idle: 10000
-  }
-});
+const db = require("../config/db.js");
 
-const Categories = sequelize.define('categories', {
+const Categories = db.module.define('categories', {
   name: {
     type: Sequelize.STRING
   },
 
   pending: {
     type: Sequelize.INTEGER
-  }
+  },
+
+  trash: {
+    type: Sequelize.INTEGER,
+    defaultValue: 0
+  },
 
 });
 

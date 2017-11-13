@@ -1,15 +1,7 @@
 const Sequelize = require("sequelize");
-const sequelize = new Sequelize('node_app', 'root', 'root', {
-  host: 'localhost',
-  dialect: 'mysql',
-  pool: {
-    max: 5,
-    min: 0,
-    idle: 10000
-  }
-});
+const db = require("../config/db.js");
 
-const HourlyStats = sequelize.define('hourly_stats', {
+const HourlyStats = db.module.define('hourly_stats', {
 
   user_id: {
     type: Sequelize.BIGINT
@@ -29,6 +21,11 @@ const HourlyStats = sequelize.define('hourly_stats', {
 
   last_likes: {
     type: Sequelize.INTEGER
+  },
+
+  trash: {
+    type: Sequelize.INTEGER,
+    defaultValue: 0
   },
 
 });

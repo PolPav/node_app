@@ -14,7 +14,7 @@ app.get('/', function(req, res) {
 
 app.get('/users', function(req, res) {
 
-  user.getUsers(users => {
+  user.getUsers().then(users => {
   res.send(JSON.stringify(users))});
 
 });
@@ -25,8 +25,8 @@ app.get('/users/:id', function(req, res) {
 
   if(id){
 
-    user.getUserById(id, user => {
-    res.send(JSON.stringify(user))});
+    user.getUserById(id).then(result => {
+    res.send(JSON.stringify(result))});
   }
 });
 
@@ -46,8 +46,8 @@ app.post('/users', function(req, res) {
       category_id: category
     };
 
-  user.addUser(data, result => {
-    res.send(JSON.stringify(result))});
+  user.addUser(data).then(result => {
+  res.send(JSON.stringify(result))});
 
 });
 
@@ -67,8 +67,8 @@ app.put('/users/:id', function(req, res) {
       category_id: category
     };
 
-  user.updateUser(data, id, result => {
-    res.send(JSON.stringify(result))});
+  user.updateUser(data, id).then(result => {
+  res.send(JSON.stringify(result))});
 
 });
 
@@ -76,8 +76,8 @@ app.delete('/users/:id', function(req, res) {
 
   const id = req.params.id;
 
-  user.deleteUser(id, result => {
-    res.send(JSON.stringify(result))});
+  user.deleteUser(id).then(result => {
+  res.send(JSON.stringify(result))});
 
 });
 

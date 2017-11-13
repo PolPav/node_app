@@ -2,35 +2,60 @@ const User = require(`../models/Users`);
 
 class UserController{
 
-  getUsers(callback) {
+  getUsers() {
 
-      User.findAll({ where: { trash: 0 } }).then(records => {
-        return callback(records);
-      });
-  }
+    const promise = new Promise((resolve, reject) => {
+      resolve(User.findAll({ where: { trash: 0 } }));
+      reject(new Error("Not Found"));
 
-  getUserById(id, callback){
-
-    User.findById(id).then(records => {
-      return callback(records);
     });
+
+    return promise;
   }
 
-  addUser(user, callback){
+  getUserById(id){
 
-    return callback(User.create(user));
+    const promise = new Promise((resolve, reject) => {
+      resolve(User.findById(id));
+      reject(new Error("Not Found"));
+
+    });
+
+    return promise;
   }
 
-  updateUser(user, id, callback){
+  addUser(user){
 
-    return callback(User.update(user, { where: { id: id } }));
+    const promise = new Promise((resolve, reject) => {
+      resolve(User.create(user));
+      reject(new Error("Not Added"));
+
+    });
+
+    return promise;
   }
 
-  deleteUser(id, callback){
+  updateUser(user, id){
 
-    return callback(User.update({trash: 1}, { where: { id: id } }));
+    const promise = new Promise((resolve, reject) => {
+      resolve(User.update(user, { where: { id: id } }));
+      reject(new Error("Not Updated"));
+
+    });
+
+    return promise;
   }
 
+  deleteUser(id){
+
+    const promise = new Promise((resolve, reject) => {
+      resolve(User.update({trash: 1}, { where: { id: id } }));
+      reject(new Error("Not Deleted"));
+
+    });
+
+    return promise;
+  }
 }
 
 module.exports = UserController;
