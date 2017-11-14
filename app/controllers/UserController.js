@@ -8,9 +8,11 @@ class UserController{
   getUsers() {
 
     const promise = new Promise((resolve, reject) => {
+
       resolve(User.findAll({
+
         where: { trash: 0 },
-        include:[{model: DailyStats}, {model: HourlyStats}, {model: MonthlyStats}],}));
+        include:[{model: DailyStats}, {model: HourlyStats}, {model: MonthlyStats}]}));
 
       reject(new Error("Not Found"));
 
@@ -22,8 +24,13 @@ class UserController{
   getUserById(id){
 
     const promise = new Promise((resolve, reject) => {
-      resolve(User.findById(id));
-      reject(new Error("Not Found"));
+
+        resolve(User.findAll({
+
+        where: { id: id, trash: 0 },
+        include:[{model: DailyStats}, {model: HourlyStats}, {model: MonthlyStats}]}));
+
+        reject(new Error("Not Found"));
 
     });
 
@@ -33,6 +40,7 @@ class UserController{
   addUser(user){
 
     const promise = new Promise((resolve, reject) => {
+
       resolve(User.create(user));
       reject(new Error("Not Added"));
 
@@ -44,6 +52,7 @@ class UserController{
   updateUser(user, id){
 
     const promise = new Promise((resolve, reject) => {
+
       resolve(User.update(user, { where: { id: id } }));
       reject(new Error("Not Updated"));
 
@@ -55,6 +64,7 @@ class UserController{
   deleteUser(id){
 
     const promise = new Promise((resolve, reject) => {
+
       resolve(User.update({trash: 1}, { where: { id: id } }));
       reject(new Error("Not Deleted"));
 

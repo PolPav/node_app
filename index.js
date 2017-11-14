@@ -15,8 +15,10 @@ app.get('/', function(req, res) {
 app.get('/users', function(req, res) {
 
   user.getUsers().then(users => {
-  res.send({ok: true, data: users})})
-     .catch(err => console.log(err));
+
+    res.send({ok: true, data: users});
+
+  }).catch(err => res.send({ok: false, error: err}));
 
 });
 
@@ -27,8 +29,15 @@ app.get('/users/:id', function(req, res) {
   if(id){
 
     user.getUserById(id).then(result => {
-    res.send({ok: true, data: result})})
-      .catch(err => res.send(({error: err})));
+
+      if(result.length !== 0){
+        res.send({ok: true, data: result});
+
+      } else {
+        res.send({ok: false, error: "deleted"});
+      }
+
+    }).catch(err => res.send({ok: false, error: err}));
   }
 });
 
@@ -49,8 +58,10 @@ app.post('/users', function(req, res) {
     };
 
   user.addUser(data).then(result => {
-  res.send(({ok: true, data: result}))})
-    .catch(err => res.send(({error: err})));
+
+    res.send(({ok: true, data: result}))
+
+  }).catch(err => res.send({ok: false, error: err}));
 
 });
 
@@ -71,8 +82,10 @@ app.put('/users/:id', function(req, res) {
     };
 
   user.updateUser(data, id).then(result => {
-  res.send({ok: true, data: result})})
-    .catch(err => res.send(({error: err})));
+
+    res.send({ok: true, data: result});
+
+  }).catch(err => res.send({ok: false, error: err}));
 
 });
 
@@ -81,8 +94,10 @@ app.delete('/users/:id', function(req, res) {
   const id = req.params.id;
 
   user.deleteUser(id).then(result => {
-  res.send(({ok: true, data: result}))})
-    .catch(err => res.send(({error: err})));
+
+    res.send(({ok: true, data: result}));
+
+  }).catch(err => res.send({ok: false, error: err}));
 
 });
 
