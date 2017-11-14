@@ -5,39 +5,91 @@ const MonthlyStats = require(`../models/MonthlyStats`);
 
 class UserController{
 
-  getUsers() {
+  getUsers(res) {
 
     return  User.findAll(
-        {
-          where: { trash: 0 },
-          include:[{model: DailyStats}, {model: HourlyStats}, {model: MonthlyStats}]
-        }
-      );
-    }
+      {
+        where: { trash: 0 },
+        include:[{model: DailyStats}, {model: HourlyStats}, {model: MonthlyStats}]
+      }
 
-  getUserById(id){
+      ).then(users => {
+
+      res.status(200);
+      res.send({success: true, data: users});
+    });
+  }
+
+  getUserById(req, res){
 
     return User.findAll(
       {
-        where: { id: id, trash: 0 },
+        where: { id: req.params.id, trash: 0 },
         include:[{model: DailyStats}, {model: HourlyStats}, {model: MonthlyStats}]
       }
-    );
+
+      ).then(result => {
+
+      let status = 200;
+      let data = {};
+
+        if(result.length !== 0){
+          data = {success: true, data: result};
+
+        } else {
+          status = 404;
+          data = {success: false};
+        }
+
+        res.status(status);
+        res.send(data);
+      });
   }
 
-  addUser(user){
+  addUser(req, res){
 
-    return User.create(user);
+    const user =
+      {
+        name: req.body.name,
+        surname: req.body.surname,
+        pending: req.body.pending,
+        category_id: req.body.category_id
+      };
+
+    return User.create(user).then(() => {
+
+      res.status(201);
+      res.send(({success: true}));
+
+    });
   }
 
-  updateUser(user, id){
+  updateUser(req, res){
 
-    return User.update(user, { where: { id: id } });
+    const user =
+      {
+        name: req.body.name,
+        surname: req.body.surname,
+        pending: req.body.pending,
+        category_id: req.body.category_id
+      };
+
+    return User.update(user, { where: { id: req.body.id } }).then(() => {
+
+      res.status(200);
+      res.send({success: true});
+
+    });
   }
 
-  deleteUser(id){
+  deleteUser(req, res){
 
-    return User.update({trash: 1}, { where: { id: id } });
+    return User.update({trash: 1}, { where: { id: req.params.id } }).then(() => {
+
+      res.status(200);
+      res.send(({success: true}));
+
+    });
   }
 }
 

@@ -2,29 +2,77 @@ const Categories = require(`../models/Categories`);
 
 class CategoryController{
 
-  getCategories() {
+  getCategories(res) {
 
-    return  Categories.findAll( {where: { trash: 0 } } );
+    return  Categories.findAll( {where: { trash: 0 } } ).then(categories => {
+
+      res.status(200);
+      res.send({success: true, data: categories});
+
+    });
   }
 
-  getCategoryById(id){
+  getCategoryById(req, res){
 
-    return Categories.findAll({where: { trash: 0, id: id } } );
+    return Categories.findAll({where: { trash: 0, id: req.params.id } } ).then(result => {
+
+      let status = 200;
+      let data = {};
+
+      if(result.length !== 0){
+        data = {success: true, data: result}
+
+      } else {
+        status = 404;
+        data = {success: false};
+      }
+
+      res.status(status);
+      res.send(data);
+
+    });
   }
 
-  addCategory(user){
+  addCategory(req, res){
 
-    return Categories.create(user);
+    const category =
+      {
+        name: req.body.name,
+        pending: req.body.pending,
+      };
+
+    return Categories.create(category).then(() => {
+
+      res.status(201);
+      res.send(({success: true}));
+
+    });
   }
 
-  updateCategory(user, id){
+  updateCategory(req, res){
 
-    return Categories.update(user, { where: { id: id } } );
+    const category =
+      {
+        name: req.body.name,
+        pending: req.body.pending,
+      };
+
+    return Categories.update(category, { where: { id: req.body.id } } ).then(() => {
+
+      res.status(200);
+      res.send({success: true});
+
+    });
   }
 
-  deleteCategory(id){
+  deleteCategory(req, res){
 
-    return Categories.update( {trash: 1}, { where: { id: id } } );
+    return Categories.update( {trash: 1}, { where: { id: req.params.id } } ).then(() => {
+
+      res.status(200);
+      res.send(({success: true}));
+
+    });
   }
 }
 
