@@ -1,10 +1,10 @@
-
 const UserController = require(`${__dirname}/app/controllers/UserController`);
+const CategoryController = require(`${__dirname}/app/controllers/CategoryController`);
 const user = new UserController();
+const category = new CategoryController();
 const express = require('express');
 const app = express();
 app.listen(8080);
-
 
 app.get('/', function(req, res) {
 
@@ -19,7 +19,6 @@ app.get('/users', function(req, res) {
     res.send({ok: true, data: users});
 
   }).catch(err => res.send({ok: false, error: err}));
-
 });
 
 app.get('/users/:id', function(req, res) {
@@ -43,18 +42,13 @@ app.get('/users/:id', function(req, res) {
 
 app.post('/users', function(req, res) {
 
-  const name = req.body.name;
-  const surname = req.body.surname;
-  const pending = req.body.pending;
-  const category = req.body.category_id;
-
   const data =
 
     {
-      name: name,
-      surname: surname,
-      pending: pending,
-      category_id: category
+      name: req.body.name,
+      surname: req.body.surname,
+      pending: req.body.pending,
+      category_id: req.body.category_id
     };
 
   user.addUser(data).then(result => {
@@ -62,23 +56,18 @@ app.post('/users', function(req, res) {
     res.send(({ok: true, data: result}))
 
   }).catch(err => res.send({ok: false, error: err}));
-
 });
 
 app.put('/users/:id', function(req, res) {
 
-  const name = req.body.name;
-  const surname = req.body.surname;
-  const pending = req.body.pending;
-  const category = req.body.category_id;
   const id = req.body.id;
 
   const data =
     {
-      name: name,
-      surname: surname,
-      pending: pending,
-      category_id: category
+      name: req.body.name,
+      surname: req.body.surname,
+      pending: req.body.pending,
+      category_id: req.body.category_id
     };
 
   user.updateUser(data, id).then(result => {
@@ -86,7 +75,6 @@ app.put('/users/:id', function(req, res) {
     res.send({ok: true, data: result});
 
   }).catch(err => res.send({ok: false, error: err}));
-
 });
 
 app.delete('/users/:id', function(req, res) {
@@ -98,7 +86,79 @@ app.delete('/users/:id', function(req, res) {
     res.send(({ok: true, data: result}));
 
   }).catch(err => res.send({ok: false, error: err}));
-
 });
 
+app.get('/categories', function (req, res) {
 
+  category.getCategories().then(users => {
+
+    res.send({ok: true, data: users});
+
+  }).catch(err => res.send({ok: false, error: err}));
+});
+
+app.get('/categories/:id', function(req, res) {
+
+  const id = req.params.id;
+
+  if(id){
+
+    category.getCategoryById(id).then(result => {
+
+      if(result.length !== 0){
+        res.send({ok: true, data: result});
+
+      } else {
+        res.send({ok: false, error: "deleted"});
+      }
+
+    }).catch(err => res.send({ok: false, error: err}));
+  }
+});
+
+app.post('/categories', function(req, res) {
+
+  const data =
+    {
+      name: req.body.name,
+      surname: req.body.surname,
+      pending: req.body.pending,
+      category_id: req.body.category_id
+    };
+
+  category.addCategory(data).then(result => {
+
+    res.send(({ok: true, data: result}))
+
+  }).catch(err => res.send({ok: false, error: err}));
+});
+
+app.put('/categories/:id', function(req, res) {
+
+  const id = req.body.id;
+
+  const data =
+    {
+      name: req.body.name,
+      surname: req.body.surname,
+      pending: req.body.pending,
+      category_id: req.body.category_id
+    };
+
+  category.updateCategory(data, id).then(result => {
+
+    res.send({ok: true, data: result});
+
+  }).catch(err => res.send({ok: false, error: err}));
+});
+
+app.delete('/categories/:id', function(req, res) {
+
+  const id = req.params.id;
+
+  category.deleteCategory(id).then(result => {
+
+    res.send(({ok: true, data: result}));
+
+  }).catch(err => res.send({ok: false, error: err}));
+});

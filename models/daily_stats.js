@@ -1,7 +1,7 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
   var daily_stats = sequelize.define('daily_stats', {
-    user_id: DataTypes.BIGINT,
+    userId: DataTypes.BIGINT,
     total_likes: DataTypes.INTEGER,
     total_comments: DataTypes.INTEGER,
     total_followers: DataTypes.INTEGER,

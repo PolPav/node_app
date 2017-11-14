@@ -17,7 +17,7 @@ module.exports = {
       pending: {
         type: Sequelize.INTEGER
       },
-      category_id: {
+      categoryId: {
         type: Sequelize.BIGINT
       },
       calculate_rating: {

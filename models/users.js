@@ -4,7 +4,7 @@ module.exports = (sequelize, DataTypes) => {
     name: DataTypes.STRING,
     surname: DataTypes.STRING,
     pending: DataTypes.INTEGER,
-    category_id: DataTypes.BIGINT,
+    categoryId: DataTypes.BIGINT,
     calculate_rating: DataTypes.INTEGER,
     trash: DataTypes.INTEGER
   }, {
