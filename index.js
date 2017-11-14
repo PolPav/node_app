@@ -121,9 +121,7 @@ app.post('/categories', function(req, res) {
   const data =
     {
       name: req.body.name,
-      surname: req.body.surname,
       pending: req.body.pending,
-      category_id: req.body.category_id
     };
 
   category.addCategory(data).then(result => {
@@ -140,9 +138,7 @@ app.put('/categories/:id', function(req, res) {
   const data =
     {
       name: req.body.name,
-      surname: req.body.surname,
       pending: req.body.pending,
-      category_id: req.body.category_id
     };
 
   category.updateCategory(data, id).then(result => {
