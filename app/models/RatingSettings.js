@@ -1,22 +1,21 @@
 const Sequelize = require("sequelize");
 const db = require("../config/db.js");
 
+const RatingSettings = db.module.define('ratingSettings', {
 
-const RatingSettings = db.module.define('rating_settings', {
-
-  total_likes: {
+  totalLikes: {
     type: Sequelize.INTEGER
   },
 
-  total_comments: {
+  totalComments: {
     type: Sequelize.INTEGER
   },
 
-  total_followers: {
+  totalFollowers: {
     type: Sequelize.INTEGER
   },
 
-  last_likes: {
+  lastLikes: {
     type: Sequelize.INTEGER
   },
 

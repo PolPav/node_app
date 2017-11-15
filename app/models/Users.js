@@ -18,11 +18,11 @@ const User = db.module.define('user', {
     type: Sequelize.INTEGER
   },
 
-  category_id: {
+  categoryId: {
     type: Sequelize.BIGINT
   },
 
-  calculate_rating: {
+  calculateRating: {
     type: Sequelize.INTEGER
   },
 
@@ -43,4 +43,3 @@ User.hasOne(MonthlyStats);
 MonthlyStats.belongsTo(User);
 
 module.exports = User;
-

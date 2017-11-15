@@ -1,25 +1,25 @@
 const Sequelize = require("sequelize");
 const db = require("../config/db.js");
 
-const MonthlyStats = db.module.define('monthly_stats', {
+const MonthlyStats = db.module.define('monthlyStats', {
 
   userId: {
     type: Sequelize.BIGINT
   },
 
-  total_likes: {
+  totalLikes: {
     type: Sequelize.INTEGER
   },
 
-  total_comments: {
+  totalComments: {
     type: Sequelize.INTEGER
   },
 
-  total_followers: {
+  totalFollowers: {
     type: Sequelize.INTEGER
   },
 
-  last_likes: {
+  lastLikes: {
     type: Sequelize.INTEGER
   },
 

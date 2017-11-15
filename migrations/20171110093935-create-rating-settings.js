@@ -1,23 +1,23 @@
 'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('rating_settings', {
+    return queryInterface.createTable('ratingSettings', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      total_likes: {
+      totalLikes: {
         type: Sequelize.INTEGER
       },
-      total_comments: {
+      totalComments: {
         type: Sequelize.INTEGER
       },
-      total_followers: {
+      totalFollowers: {
         type: Sequelize.INTEGER
       },
-      last_likes: {
+      lastLikes: {
         type: Sequelize.INTEGER
       },
       trash: {

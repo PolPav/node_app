@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('monthly_stats', {
+    return queryInterface.createTable('monthlyStats', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -11,16 +11,16 @@ module.exports = {
       userId: {
         type: Sequelize.BIGINT
       },
-      total_likes: {
+      totalLikes: {
         type: Sequelize.INTEGER
       },
-      total_comments: {
+      totalComments: {
         type: Sequelize.INTEGER
       },
-      total_followers: {
+      totalFollowers: {
         type: Sequelize.INTEGER
       },
-      last_likes: {
+      lastLikes: {
         type: Sequelize.INTEGER
       },
       trash: {

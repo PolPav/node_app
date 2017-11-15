@@ -8,7 +8,6 @@ class CategoryController{
 
       res.status(200);
       res.send({success: true, data: categories});
-
     });
   }
 
@@ -29,7 +28,6 @@ class CategoryController{
 
       res.status(status);
       res.send(data);
-
     });
   }
 
@@ -45,7 +43,6 @@ class CategoryController{
 
       res.status(201);
       res.send(({success: true}));
-
     });
   }
 
@@ -57,11 +54,10 @@ class CategoryController{
         pending: req.body.pending,
       };
 
-    return Categories.update(category, { where: { id: req.body.id } } ).then(() => {
+    return Categories.update(category, { where: { id: req.params.id } } ).then(() => {
 
       res.status(200);
       res.send({success: true});
-
     });
   }
 
@@ -71,7 +67,6 @@ class CategoryController{
 
       res.status(200);
       res.send(({success: true}));
-
     });
   }
 }

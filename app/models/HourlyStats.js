@@ -1,25 +1,25 @@
 const Sequelize = require("sequelize");
 const db = require("../config/db.js");
 
-const HourlyStats = db.module.define('hourly_stats', {
+const HourlyStats = db.module.define('hourlyStats', {
 
   userId: {
     type: Sequelize.BIGINT
   },
 
-  total_likes: {
+  totalLikes: {
     type: Sequelize.INTEGER
   },
 
-  total_comments: {
+  totalComments: {
     type: Sequelize.INTEGER
   },
 
-  total_followers: {
+  totalFollowers: {
     type: Sequelize.INTEGER
   },
 
-  last_likes: {
+  lastLikes: {
     type: Sequelize.INTEGER
   },
 

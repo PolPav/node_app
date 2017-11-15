@@ -20,7 +20,7 @@ module.exports = {
       categoryId: {
         type: Sequelize.BIGINT
       },
-      calculate_rating: {
+      calculateRating: {
         type: Sequelize.INTEGER
       },
       trash: {

@@ -53,14 +53,14 @@ class UserController{
         name: req.body.name,
         surname: req.body.surname,
         pending: req.body.pending,
-        category_id: req.body.category_id
+        categoryId: req.body.categoryId,
+        calculateRating: req.body.calculateRating
       };
 
     return User.create(user).then(() => {
 
       res.status(201);
       res.send(({success: true}));
-
     });
   }
 
@@ -71,14 +71,13 @@ class UserController{
         name: req.body.name,
         surname: req.body.surname,
         pending: req.body.pending,
-        category_id: req.body.category_id
+        categoryId: req.body.categoryId
       };
 
-    return User.update(user, { where: { id: req.body.id } }).then(() => {
+    return User.update(user, { where: { id: req.params.id } }).then(() => {
 
       res.status(200);
       res.send({success: true});
-
     });
   }
 
@@ -88,7 +87,6 @@ class UserController{
 
       res.status(200);
       res.send(({success: true}));
-
     });
   }
 }

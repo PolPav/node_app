@@ -1,11 +1,11 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-  var monthly_stats = sequelize.define('monthly_stats', {
+  var monthly_stats = sequelize.define('monthlyStats', {
     userId: DataTypes.BIGINT,
-    total_likes: DataTypes.INTEGER,
-    total_comments: DataTypes.INTEGER,
-    total_followers: DataTypes.INTEGER,
-    last_likes: DataTypes.INTEGER,
+    totalLikes: DataTypes.INTEGER,
+    totalComments: DataTypes.INTEGER,
+    totalFollowers: DataTypes.INTEGER,
+    lastLikes: DataTypes.INTEGER,
     trash: DataTypes.INTEGER
   }, {
     classMethods: {
