@@ -1,26 +1,67 @@
 const UserController = require(`./app/controllers/UserController`);
 const CategoryController = require(`./app/controllers/CategoryController`);
+const AuthController = require(`./app/controllers/AuthController`);
+const Auth = require('./app/models/Auth');
 const user = new UserController();
 const category = new CategoryController();
 const express = require('express');
 const app = express();
-const bodyParser = require("body-parser");
+const bodyParser = require('body-parser');
+const passport = require('passport');
+const session = require('express-session');
+const env = require('dotenv').load();
+const exphbs = require('express-handlebars');
 const urlencodedParser = bodyParser.urlencoded({extended: false});
-app.listen(8080);
+
+app.set('views', './app/views');
+app.engine('hbs', exphbs({
+  extname: '.hbs'
+}));
+app.set('view engine', '.hbs');
+
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+app.use(session({secret: "SECRET"}));
+app.use(passport.initialize());
+app.use(passport.session());
+
+console.log('before passport require');
+
+require('./app/routes/auth.js')(app, passport);
+require('./app/config/passport/passport.js')(passport, Auth);
+
+app.listen(5558);
 
 app.get('/', function(req, res) {
 
   res.send("Hello Guest");
 });
 
-app.get('/users', function(req, res) {
+app.get('/login', function(req, res) {
 
-  user.getUsers(res);
+  res.status(200);
+  res.send('Enter login and password');
 });
 
-app.get('/users/:id', function(req, res) {
+app.post('/login', urlencodedParser, function(req, res) {
 
-  user.getUserById(req, res);
+  AuthController.addAccount(req, res);
+});
+
+app.get('/users', function(req, res) {
+
+  AuthController.checkAccount(req, res);
+});
+
+app.get('/users/:token', function(req, res) {
+
+  AuthController.checkAccount(req, res);
+});
+
+app.get('/users/:id/:token', function(req, res) {
+
+  AuthController.checkAccount(req, res);
+  // user.getUserById(req.params.id, res);
 });
 
 app.post('/users', urlencodedParser, function(req, res) {

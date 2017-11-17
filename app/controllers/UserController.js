@@ -20,11 +20,11 @@ class UserController{
     });
   }
 
-  getUserById(req, res){
+  getUserById(id, res){
 
     return User.findAll(
       {
-        where: { id: req.params.id, trash: 0 },
+        where: { id, trash: 0 },
         include:[{model: DailyStats}, {model: HourlyStats}, {model: MonthlyStats}]
       }
 
