@@ -1,6 +1,6 @@
 const UserController = require(`./app/controllers/UserController`);
 const CategoryController = require(`./app/controllers/CategoryController`);
-const AuthController = require(`./app/controllers/AuthController`);
+const AuthController = require(`./app/controllers/CustomAuthController`);
 const Auth = require('./app/models/Auth');
 const user = new UserController();
 const category = new CategoryController();
@@ -27,8 +27,6 @@ app.use(session({secret: "SECRET"}));
 app.use(passport.initialize());
 app.use(passport.session());
 
-console.log('before passport require');
-
 require('./app/routes/auth.js')(app, passport);
 require('./app/config/passport/passport.js')(passport, Auth);
 
@@ -36,7 +34,10 @@ app.listen(5558);
 
 app.get('/', function(req, res) {
 
-  res.send("Hello Guest");
+  if (!req.isAuthenticated()) {
+    console.log('not authenticated');
+    res.redirect('/signin');
+  }
 });
 
 app.get('/login', function(req, res) {

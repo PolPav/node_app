@@ -1,11 +1,11 @@
-const authController = require('../controllers/authcontroller.js');
+const authController = require('../controllers/AuthController.js');
 
 module.exports = function(app, passport) {
 
   const authHandler = passport.authenticate('local', {
 
       successRedirect: '/dashboard',
-      failureRedirect: '/signup'
+      failureRedirect: '/signin'
     }
   );
 
@@ -13,16 +13,10 @@ module.exports = function(app, passport) {
 
   app.get('/signin', authController.signin);
 
-  app.post('/signup', (req, options, next) => {
-    console.log('signup pass');
-    authHandler(req, options, next);
-  });
+  app.get('/dashboard', authController.dashboard);
 
-  // app.post('/signup', function(req, res, next) {
-  //   passport.authenticate('local', {session:false}, function(err, user, token_record) {
-  //     if (err) { console.log(err); }
-  //     console.log(user);
-  //   })(req, res, next);
-  //
-  // });
+  app.post('/signin', (req, options, next) => {
+
+   return authHandler(req, options, next);
+  });
 };
