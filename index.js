@@ -7,6 +7,7 @@ const category = new CategoryController();
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
 const passport = require('passport');
 const session = require('express-session');
 const env = require('dotenv').load();
@@ -19,7 +20,8 @@ app.engine('hbs', exphbs({
 }));
 app.set('view engine', '.hbs');
 
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cookieParser());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(session({secret: "SECRET"}));
 app.use(passport.initialize());
@@ -61,7 +63,6 @@ app.get('/users/:token', function(req, res) {
 app.get('/users/:id/:token', function(req, res) {
 
   AuthController.checkAccount(req, res);
-  // user.getUserById(req.params.id, res);
 });
 
 app.post('/users', urlencodedParser, function(req, res) {

@@ -1,31 +1,42 @@
 const Auth = require(`../models/Auth`);
+const bCrypt = require('bcrypt-nodejs');
 const UserController = require(`../controllers/UserController`);
 const user = new UserController;
 
 class AuthController {
 
-  static checkAccount(req, res) {
+  constructor(){
+    this.currentUser = {};
+  }
 
-    return Auth.findAll({where: {token: req.params.token, userId: req.params.id}}).then(result => {
+  static checkAccount(req, res, next) {
+
+    return Auth.findAll({where: {token: req.params.token}}).then(result => {
 
       if (result.length !== 0) {
-        return user.getUserById(result[0].userId, res);
+        req.param.auth = true;
+        //this.currentUser = user.getUserById(result[0].userId, res);
+        next();
 
       } else {
-
-        res.redirect('/login');
+        req.param.auth = false;
+        console.log(req.params.auth);
+        next();
+        // res.redirect('/login');
       }
     });
   }
 
   static addAccount(req, res) {
 
-    const secret = "s_e_c_r_e_t";
+    const secret = process.env.SECRET;
+    const hash = bCrypt.hashSync(req.body.password, bCrypt.genSaltSync(8), null);
+    const token = bCrypt.hashSync(`${req.body.login}${secret}`, bCrypt.genSaltSync(8), null);
     const user =
       {
         login: req.body.login,
-        password: req.body.password,
-        token: `${req.body.login}${secret}`
+        password: hash,
+        token,
       };
 
     return Auth.create(user).then(() => {
