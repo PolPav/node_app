@@ -1,38 +1,93 @@
-const appDb = require(`../models/AppDB`);
 const User = require(`../models/Users`);
+const DailyStats = require(`../models/DailyStats`);
+const HourlyStats = require(`../models/HourlyStats`);
+const MonthlyStats = require(`../models/MonthlyStats`);
 
 class UserController{
 
-  constructor(){
+  getUsers(res) {
 
-    this.db = new appDb();
-    this.user = {};
+    return  User.findAll(
+      {
+        where: { trash: 0 },
+        include:[{model: DailyStats}, {model: HourlyStats}, {model: MonthlyStats}]
+      }
+
+      ).then(users => {
+
+      res.status(200);
+      res.send({success: true, data: users});
+    });
   }
 
-  getUser(fn){
+  getUserById(req, res){
 
-    User.findAll().then(users => {
-      return fn(users)});
+    return User.findAll(
+      {
+        where: { id: req.params.id, trash: 0 },
+        include:[{model: DailyStats}, {model: HourlyStats}, {model: MonthlyStats}]
+      }
 
+      ).then(result => {
+
+      let status = 200;
+      let data = {};
+
+        if(result.length !== 0){
+          data = {success: true, data: result};
+
+        } else {
+          status = 404;
+          data = {success: false};
+        }
+
+        res.status(status);
+        res.send(data);
+      });
   }
 
-  createUser(user, fn){
+  addUser(req, res){
 
-    this.db.create(user, (result) => { return fn(result) });
+    const user =
+      {
+        name: req.body.name,
+        surname: req.body.surname,
+        pending: req.body.pending,
+        categoryId: req.body.categoryId,
+        calculateRating: req.body.calculateRating
+      };
 
-    return fn(this.user);
+    return User.create(user).then(() => {
+
+      res.status(201);
+      res.send(({success: true}));
+    });
   }
 
-  updateUser(user, id, fn){
+  updateUser(req, res){
 
-    this.db.update(user, id, (result) => { return fn(result) });
+    const user =
+      {
+        name: req.body.name,
+        surname: req.body.surname,
+        pending: req.body.pending,
+        categoryId: req.body.categoryId
+      };
 
-    return fn(this.user);
+    return User.update(user, { where: { id: req.params.id } }).then(() => {
+
+      res.status(200);
+      res.send({success: true});
+    });
   }
 
-  deleteUser(id, fn){
+  deleteUser(req, res){
 
-    this.db.remove(id, (result) => { return fn(result) });
+    return User.update({trash: 1}, { where: { id: req.params.id } }).then(() => {
+
+      res.status(200);
+      res.send(({success: true}));
+    });
   }
 }
 

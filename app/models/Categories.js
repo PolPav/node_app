@@ -1,36 +1,21 @@
 const Sequelize = require("sequelize");
-const sequelize = new Sequelize('node_app', 'root', 'root', {
-  host: 'localhost',
-  dialect: 'mysql',
-  pool: {
-    max: 5,
-    min: 0,
-    idle: 10000
-  }
-});
+const db = require("../config/db.js");
 
-sequelize
-  .authenticate()
-  .then(() => {
-    console.log('Соединение установлено.');
-  })
-  .catch(err => {
-    console.error('Ошибка соединения:', err);
-  });
+const Categories = db.module.define('categories', {
 
-const Categories = sequelize.define('categories', {
   name: {
     type: Sequelize.STRING
   },
 
   pending: {
     type: Sequelize.INTEGER
-  }
+  },
+
+  trash: {
+    type: Sequelize.INTEGER,
+    defaultValue: 0
+  },
 
 });
-
-// Categories.sync({force: true}).then(() => {
-//   return Categories.create({});
-// });
 
 module.exports = Categories;

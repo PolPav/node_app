@@ -1,47 +1,33 @@
 const Sequelize = require("sequelize");
-const sequelize = new Sequelize('node_app', 'root', 'root', {
-  host: 'localhost',
-  dialect: 'mysql',
-  pool: {
-    max: 5,
-    min: 0,
-    idle: 10000
-  }
-});
+const db = require("../config/db.js");
 
-sequelize
-  .authenticate()
-  .then(() => {
-    console.log('Соединение установлено.');
-  })
-  .catch(err => {
-    console.error('Ошибка соединения:', err);
-  });
+const DailyStats = db.module.define('dailyStats', {
 
-const DailyStats = sequelize.define('daily_stats', {
-  user_id: {
+  userId: {
     type: Sequelize.BIGINT
   },
 
-  total_likes: {
+  totalLikes: {
     type: Sequelize.INTEGER
   },
 
-  total_comments: {
+  totalComments: {
     type: Sequelize.INTEGER
   },
 
-  total_followers: {
+  totalFollowers: {
     type: Sequelize.INTEGER
   },
 
-  last_likes: {
+  lastLikes: {
     type: Sequelize.INTEGER
   },
+
+  trash: {
+    type: Sequelize.INTEGER,
+    defaultValue: 0
+  }
+
 });
-
-// DailyStats.sync({force: true}).then(() => {
-//   return DailyStats.create({});
-// });
 
 module.exports = DailyStats;

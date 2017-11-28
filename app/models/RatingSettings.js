@@ -1,44 +1,28 @@
 const Sequelize = require("sequelize");
-const sequelize = new Sequelize('node_app', 'root', 'root', {
-  host: 'localhost',
-  dialect: 'mysql',
-  pool: {
-    max: 5,
-    min: 0,
-    idle: 10000
-  }
-});
+const db = require("../config/db.js");
 
-sequelize
-  .authenticate()
-  .then(() => {
-    console.log('Соединение установлено.');
-  })
-  .catch(err => {
-    console.error('Ошибка соединения:', err);
-  });
+const RatingSettings = db.module.define('ratingSettings', {
 
-const RatingSettings = sequelize.define('rating_settings', {
-
-  total_likes: {
+  totalLikes: {
     type: Sequelize.INTEGER
   },
 
-  total_comments: {
+  totalComments: {
     type: Sequelize.INTEGER
   },
 
-  total_followers: {
+  totalFollowers: {
     type: Sequelize.INTEGER
   },
 
-  last_likes: {
+  lastLikes: {
     type: Sequelize.INTEGER
+  },
+
+  trash: {
+    type: Sequelize.INTEGER,
+    defaultValue: 0
   },
 });
-
-// RatingSettings.sync({force: true}).then(() => {
-//   return RatingSettings.create({});
-// });
 
 module.exports = RatingSettings;

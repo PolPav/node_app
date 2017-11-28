@@ -1,24 +1,11 @@
 const Sequelize = require("sequelize");
-const sequelize = new Sequelize('node_app', 'root', 'root', {
-  host: 'localhost',
-  dialect: 'mysql',
-  pool: {
-    max: 5,
-    min: 0,
-    idle: 10000
-  }
-});
+const db = require("../config/db.js");
+const DailyStats = require("./DailyStats");
+const HourlyStats = require("./HourlyStats");
+const MonthlyStats = require("./MonthlyStats");
 
-sequelize
-  .authenticate()
-  .then(() => {
-    console.log('Соединение установлено.');
-  })
-  .catch(err => {
-    console.error('Ошибка соединения:', err);
-  });
+const User = db.module.define('user', {
 
-const User = sequelize.define('user', {
   name: {
     type: Sequelize.STRING
   },
@@ -31,14 +18,28 @@ const User = sequelize.define('user', {
     type: Sequelize.INTEGER
   },
 
-  category_id: {
+  categoryId: {
     type: Sequelize.BIGINT
   },
 
-  calculate_rating: {
+  calculateRating: {
     type: Sequelize.INTEGER
   },
+
+  trash: {
+    type: Sequelize.INTEGER,
+    defaultValue: 0
+  }
+
 });
 
-module.exports = User;
+User.hasOne(DailyStats);
+DailyStats.belongsTo(User);
 
+User.hasOne(HourlyStats);
+HourlyStats.belongsTo(User);
+
+User.hasOne(MonthlyStats);
+MonthlyStats.belongsTo(User);
+
+module.exports = User;
